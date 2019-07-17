@@ -13,6 +13,13 @@ header {
     background: white;
     text-align: center;
 }
+.price-info {
+    font-size: 18px;
+    margin: 10px 0 5px 0;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-evenly;
+}
 @media (min-width: 750px) {
     header {
         text-align: left;
@@ -61,7 +68,6 @@ ul {
 .submenu {
     position: relative;
 }
-
 .submenu #shopping-cart{
     display: none;
 }
@@ -169,7 +175,18 @@ ul {
         width: 30%;
     }
     .u-pull-right {
-        margin-left: 50%; }
+        margin-left: 50%;
+    }
+    .price-info {
+        justify-content: space-between;
+    }
+}
+.current-price {
+    font-weight: 700;
+    font-size: 22px;
+}
+.card div .price .u-pull-right {
+    text-decoration: none;
 }
 .info-card  {
     padding: 10px 20px;
