@@ -181,6 +181,23 @@ ul {
         justify-content: space-between;
     }
 }
+.cart-items {
+    display: none;
+}
+.items-number {
+    background-color: crimson;
+    width: 18px;
+    height: 17px;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 12px;
+    font-weight: 600;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .current-price {
     font-weight: 700;
     font-size: 22px;

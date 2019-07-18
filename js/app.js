@@ -5,11 +5,11 @@ const clearCartButton = document.querySelector("#clear-cart");
 class CourseHandler {
   constructor(e) {
     this.event = e;
+    this.itemQuantity = document.querySelector(".cart-items");
   }
 
   handleCourse() {
     this.event.preventDefault();
-    console.log(this.event.target.classList);
     if (this.event.target.classList.contains("add-to-cart")) {
       const courseCard = this.event.target.parentElement.parentElement;
       this.getCourseInfo(courseCard);
@@ -26,8 +26,8 @@ class CourseHandler {
     this.addToCart(courseInfo);
   }
 
-  addToCart(courseObj) {
-    this.createTableData(courseObj);
+  async addToCart(courseObj) {
+    await this.createTableData(courseObj);
     cartBody.append(courseObj);
     this.addCourseToStorage(courseObj);
   }
@@ -35,16 +35,14 @@ class CourseHandler {
   createTableData(obj) {
     const cartData = document.createElement("tr");
     cartData.innerHTML = `
-      <tr>
-        <td>
-          <img src="${obj.image}" alt="img" width="100px">
-        </td>
-        <td>${obj.title}</td>
-        <td>${obj.price}</td>
-        <td>
-          <a href="#" class="remove" data-id=${obj.id}>X</a>
-        </td>
-      </tr>
+      <td>
+        <img src="${obj.image}" alt="img" width="100px">
+      </td>
+      <td>${obj.title}</td>
+      <td>${obj.price}</td>
+      <td>
+        <a href="#" class="remove" data-id=${obj.id}>X</a>
+      </td>
     `;
     cartBody.append(cartData);
   }
@@ -72,13 +70,28 @@ class CourseHandler {
       }
     });
     localStorage.setItem("courses", JSON.stringify(courses));
+    this.showItemQuantity(courses.length);
   }
 
   addCourseToStorage(courseObj) {
     let courses = this.getCoursesFromStorage();
     courses.push(courseObj);
     localStorage.setItem("courses", JSON.stringify(courses));
-    console.log(courses);
+    this.showItemQuantity(courses.length)
+  }
+
+  showItemQuantity(arrLength) {
+    let quantityNumber = 0;
+    if (quantityNumber === arrLength) {
+      this.itemQuantity.classList.remove("items-number");
+      this.itemQuantity.textContent = quantityNumber;
+      return quantityNumber;
+    } else if (quantityNumber < arrLength) {
+      quantityNumber = arrLength;
+      this.itemQuantity.classList.add("items-number");
+      this.itemQuantity.textContent = quantityNumber;
+      return quantityNumber;
+    }
   }
 
   getCoursesFromStorage() {
@@ -87,9 +100,8 @@ class CourseHandler {
       cartData = [];
     } else {
       cartData = JSON.parse(localStorage.getItem("courses"));
-      // this.addToCart(courseInfo);
     }
-    console.log(cartData);
+    this.showItemQuantity(cartData.length);
     return cartData;
   }
 
