@@ -50,14 +50,28 @@ class CourseHandler {
   }
 
   removeCourefromCart() {
+    let course = this.event.target.parentElement.parentElement,
+        courseId;
     if (this.event.target.classList.value === "remove") {
-      this.event.target.parentElement.parentElement.remove();
+      course.remove();
+      courseId = course.querySelector("a").getAttribute("data-id");
+      this.removeCourseFromLocalStorage(courseId);
     } else if (this.event.target.getAttribute("id") === "clear-cart") {
       while (cartBody.firstChild) {
         cartBody.firstChild.remove(cartBody.firstChild);
       }
       localStorage.clear();
     }
+  }
+
+  removeCourseFromLocalStorage(id) {
+    let courses = this.getCoursesFromStorage();
+    courses.forEach((course, index) => {
+      if (course.id === id) {
+        courses.splice(index, 1);
+      }
+    });
+    localStorage.setItem("courses", JSON.stringify(courses));
   }
 
   addCourseToStorage(courseObj) {
